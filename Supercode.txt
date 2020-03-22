@@ -1,0 +1,465 @@
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <iostream>
+#include <Windows.h>
+bool Collision(sf::RectangleShape &rect, sf::CircleShape &circ){
+	sf::FloatRect r=rect.getGlobalBounds();
+	sf::FloatRect c=circ.getGlobalBounds();
+	return c.intersects(r);
+}
+bool Collision(sf::RectangleShape &rect, sf::RectangleShape &roct){
+	sf::FloatRect re=rect.getGlobalBounds();
+	sf::FloatRect ro=roct.getGlobalBounds();
+	return ro.intersects(re);
+}
+/*
+//
+//int main (){
+//	sf::RenderWindow window(sf::VideoMode(200, 200), "Name");
+//	sf::CircleShape shape(100.f);
+//	shape.setFillColor(sf::Color::Green);
+//
+//
+// IMPORTANT COPY BELOW OVER SO PROGRAM WORKS
+//	while (window.isOpen()){
+//		sf::Event event;
+//		while (window.pollEvent(event)){
+//			if (event.type == sf::Event::Closed)
+//				window.close();
+//		}
+//		window.clear();
+//		window.draw(shape);
+//		window.display();
+//	}
+//	return 0;
+//}
+//
+//PROJECT 1
+//
+//int main (){
+//	textures
+//	sf::Texture pineapple;
+//	pineapple.loadFromFile("jeff.jpg");
+//	sf::Texture robit;
+//	robit.loadFromFile("robit.jpg");
+//	window
+//	sf::RenderWindow window (sf::VideoMode(1000,750), "Project 01");
+//	circle
+//	sf::CircleShape circle(50.f);
+//	circle.setPosition(600,600);
+//	circle.setFillColor(sf::Color::Blue);
+//	line
+//	sf::RectangleShape line(sf::Vector2f(200,10));
+//	line.rotate(80);
+//	line.setFillColor(sf::Color::Green);
+//	line.setPosition(10,10);
+//	triangle
+//	sf::CircleShape triangle(200,3);
+//	triangle.setPosition(100,400);
+//	triangle.setOutlineThickness(-10);
+//	triangle.setOutlineColor(sf::Color::Cyan);
+//	rectangle
+//	sf::RectangleShape rectangle(sf::Vector2f(320,99));
+//	rectangle.setPosition(100,50);
+//	rectangle.setOutlineThickness(10);
+//	rectangle.setOutlineColor(sf::Color::Magenta);
+//	square
+//	sf::CircleShape square(100,4);
+//	square.setPosition(600,100);
+//	square.setTexture(&pineapple); 
+//	square.setTextureRect(sf::IntRect(10, 10, 100, 100));
+//	hexagon
+//	sf::CircleShape hexagon(50,6);
+//	hexagon.setPosition(500,375);
+//	hexagon.setTexture(&robit);
+//	hexagon.setTextureRect(sf::IntRect(10,23,100,100));
+//
+//
+//
+//	while (window.isOpen()){
+//		sf::Event event;
+//		while (window.pollEvent(event)){
+//				if (event.type == sf::Event::Closed)
+//					window.close();
+//				}
+//			window.clear();
+//			window.draw(circle);
+//			window.draw(line);
+//			window.draw(triangle);
+//			window.draw(rectangle);
+//			window.draw(hexagon);
+//			window.draw(square);
+//			window.display();
+//	}
+//	return 0;
+//}
+
+//project 2
+
+//int main (){
+//	//Window Setup
+//	sf::RenderWindow window(sf::VideoMode(1000, 800), "Project 2 LOGAN AULT");
+//	//The edges
+//	sf::RectangleShape zero(sf::Vector2f(1000,5));
+//	sf::RectangleShape one(sf::Vector2f(1000,5));
+//	sf::RectangleShape two(sf::Vector2f(5,800));
+//	sf::RectangleShape three(sf::Vector2f(5,800));
+//	one.setPosition(0,795);
+//	three.setPosition(995,0);
+//	//Background
+//	sf::Texture background;
+//	background.loadFromFile("Back.jpg");
+//	//Robotnik's Face
+//	sf::Texture robit;
+//	robit.loadFromFile("robit.jpg");
+//	//Harold's face
+//	sf::Texture harrold;
+//	harrold.loadFromFile("Harold.jpg");
+//	//Knuck's face
+//	sf::Texture knuckles;
+//	knuckles.loadFromFile("knuck.jpg");
+//	//Background
+//	sf::RectangleShape back(sf::Vector2f(1000,1000));
+//	back.setTexture(&background);
+//	//Robotnik's Face in a Hexagon
+//	sf::CircleShape robotniksFace(50,6);
+//	robotniksFace.setTexture(&robit);
+//	robotniksFace.setTextureRect(sf::IntRect(10,26,100,100));
+//	robotniksFace.setPosition(100,100);
+//	//Transparent Harold face 
+//	sf::CircleShape harold(50.f);
+//	harold.setTexture(&harrold);
+//	harold.setFillColor(sf::Color(255, 255, 255, 128));
+//	//Bouncy knuck
+//	sf::CircleShape knuck(75.f);
+//	knuck.setTexture(&knuckles);
+//	float vely=.05;
+//	float velx=.05;
+//	knuck.setPosition(500,500);
+//	//while loop
+//	while (window.isOpen()){
+//		sf::Event event;
+//		while (window.pollEvent(event)){
+//			if (event.type == sf::Event::Closed)
+//			window.close();
+//		}
+//		if (Collision(zero, knuck) || Collision(one, knuck)){
+//			vely*=-1;		
+//		}
+//		if (Collision (two, knuck) || Collision(three,knuck)){
+//			velx*=-1;
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+//		{
+//			robotniksFace.move(-.5, 0);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+//		{
+//			robotniksFace.move(.5, 0);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+//		{
+//			robotniksFace.move(0, -.5);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+//		{
+//			robotniksFace.move(0, .5);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+//		{
+//			robotniksFace.move(-.5, 0);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+//		{
+//			robotniksFace.move(.5, 0);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+//		{
+//			robotniksFace.move(0, -.5);
+//		}
+//		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+//		{
+//			robotniksFace.move(0, .5);
+//		}
+//		sf::Vector2i mp = sf::Mouse::getPosition(window);
+//		harold.setPosition(mp.x,mp.y);
+//		knuck.move(velx , vely);
+//		window.clear();
+//		window.draw(zero);
+//		window.draw(one);
+//		window.draw(two);
+//		window.draw(three);
+//		window.draw(back);
+//		window.draw(robotniksFace);
+//		window.draw(harold);
+//		window.draw(knuck);
+//		window.display();
+//	}
+//	return 0;
+} */
+
+//PROJECT 3
+
+int main (){
+	//start;
+	//point variables
+	 int pop = 0;//player one point
+	 int ptp = 0;//player two point
+	 int lw = 0;// last win
+	// int nc = 0;
+	//BGM
+	sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("chaos.wav"))
+		return -1;
+	sf::Sound bgm;
+	bgm.setBuffer(buffer);
+	bgm.setVolume(25);
+	bgm.play();
+	bgm.setLoop(true);
+	//U do not no da wae
+	sf::SoundBuffer buff;
+	if (!buff.loadFromFile("dawae.wav"))
+		return -1;
+	sf::Sound dawae;
+	dawae.setBuffer(buff);
+	//Snooping as usual I see...
+	sf::SoundBuffer buffest;
+	if (!buffest.loadFromFile("snooping.wav"))
+		return -1;
+	sf::Sound snoop;
+	snoop.setBuffer(buffest);
+	//Robotnik wins
+	sf::SoundBuffer buffina;
+	if (!buffina.loadFromFile("Robitwin.wav"))
+		return -1;
+	sf::Sound rwin;
+	rwin.setBuffer(buffina);
+	//Knuckles wins
+	sf::SoundBuffer buffet;
+	if (!buffet.loadFromFile("knuckwin.wav"))
+		return -1;
+	sf::Sound kwin;
+	kwin.setBuffer(buffet);
+	//Window Setup
+	sf::RenderWindow window(sf::VideoMode(1000, 800), "Project 3 LOGAN AULT");
+	//player one points
+	sf::RectangleShape poon(sf::Vector2f(10,10));
+	poon.setPosition(15,15);
+	poon.setFillColor(sf::Color::Red);
+	sf::RectangleShape potw(sf::Vector2f(10,10));
+	potw.setPosition(30,15);
+	potw.setFillColor(sf::Color::Red);
+	sf::RectangleShape poth(sf::Vector2f(10,10));
+	poth.setPosition(45,15);
+	poth.setFillColor(sf::Color::Red);
+	sf::RectangleShape pofo(sf::Vector2f(10,10));
+	pofo.setPosition(60,15);
+	pofo.setFillColor(sf::Color::Red);
+	sf::RectangleShape pofi(sf::Vector2f(10,10));
+	pofi.setPosition(75,15);
+	pofi.setFillColor(sf::Color::Red);
+	//player two points
+	sf::RectangleShape pto(sf::Vector2f(-10,10));
+	pto.setPosition(985,15);
+	pto.setFillColor(sf::Color::Red);
+	sf::RectangleShape pttw(sf::Vector2f(-10,10));
+	pttw.setPosition(970,15);
+	pttw.setFillColor(sf::Color::Red);
+	sf::RectangleShape ptth(sf::Vector2f(-10,10));
+	ptth.setPosition(955,15);
+	ptth.setFillColor(sf::Color::Red);
+	sf::RectangleShape ptfo(sf::Vector2f(-10,10));
+	ptfo.setPosition(940,15);
+	ptfo.setFillColor(sf::Color::Red);
+	sf::RectangleShape ptfi(sf::Vector2f(-10,10));
+	ptfi.setPosition(925,15);
+	ptfi.setFillColor(sf::Color::Red);
+	//The edges
+	sf::RectangleShape zero(sf::Vector2f(1000,5));
+	sf::RectangleShape one(sf::Vector2f(1000,5));
+	sf::RectangleShape two(sf::Vector2f(5,800));
+	sf::RectangleShape three(sf::Vector2f(5,800));
+	one.setPosition(0,795);
+	three.setPosition(995,0);
+	//Bouncy boll
+	sf::CircleShape boll(30.f);
+	float vely=.05;
+	float velx=.05;
+	boll.setPosition(500,400);
+	sf::Texture bollo;
+	bollo.loadFromFile("emerald.png");
+	boll.setTexture(&bollo);
+	//Player 1
+	sf::RectangleShape plyro(sf::Vector2f(50,120));
+	plyro.setPosition(100,400);
+	sf::Texture robit;
+	robit.loadFromFile("robit.jpg");
+	plyro.setTexture(&robit);
+	//Player 2
+	sf::RectangleShape plyrt(sf::Vector2f(-50,100));
+	plyrt.setPosition(900,400);
+	sf::Texture knuckles;
+	knuckles.loadFromFile("knuck.jpg");
+	plyrt.setTexture(&knuckles);
+	//game loop
+while (window.isOpen()){
+		sf::Event event;
+		while (window.pollEvent(event)){
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		//collisions, movement 'n stuff
+		if (Collision(zero, boll) || Collision(one, boll)){
+			vely*=-1;
+		}
+		if (Collision (plyro, boll) || Collision(plyrt,boll)){
+			velx*=-1;
+		}
+		if (Collision (plyro, boll)){
+			if (velx<3){
+				velx=velx+0.05;
+			}
+			snoop.setVolume(75);
+			snoop.play();
+		}
+		if (Collision (plyrt, boll)){
+			if (velx>-3){
+				velx=velx-0.05;	
+			}
+			dawae.setVolume(50);
+			dawae.play();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			plyrt.move(0, -.5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			plyrt.move(0, .5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			plyro.move(0, -.4);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			plyro.move(0, .4);
+		}
+		if (Collision(zero,plyro)){
+		plyro.move (0,0.5);
+		}
+		if (Collision(one,plyro)){
+		plyro.move (0,-0.5);	
+		}
+		if (Collision(zero,plyrt)){
+		plyrt.move (0,0.5);
+		}
+		if (Collision(one,plyrt)){
+		plyrt.move (0,-0.5);	
+		}
+		//points
+		if (Collision (three, boll)){
+			pop+=1;
+			velx=0;
+			vely=0;
+			lw=-1;
+			if (pop == 1){
+				poon.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (pop ==2){
+				potw.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (pop ==3){
+				poth.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (pop ==4){
+				pofo.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (pop ==5){
+				pofi.setFillColor(sf::Color::Green);
+				bgm.setLoop(false);
+				bgm.pause();
+				rwin.setLoop(true);
+				rwin.play();
+				rwin.setVolume(40);
+				snoop.play();
+			}
+		}
+		if (Collision(two,boll)){
+			ptp+=1;
+			velx=0;
+			vely=0;
+			lw=1;
+			if (ptp == 1){
+				pto.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (ptp == 2){
+				pttw.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (ptp == 3){
+				ptth.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (ptp == 4){
+				ptfo.setFillColor(sf::Color::Green);
+				boll.setPosition(500,400);
+			}
+			if (ptp == 5){
+				ptfi.setFillColor(sf::Color::Green);
+				bgm.setLoop(false);
+				bgm.pause();
+				kwin.setLoop(true);
+				kwin.play();
+				kwin.setVolume(40);
+				dawae.play();
+			}
+		}
+		if (lw==1){
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+					velx=-.05;
+					vely=-.05;
+					lw=0;
+			}
+		}
+		if (lw==-1){
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+					velx=.05;
+					vely=.05;
+					lw=0;
+			}
+		}
+		boll.move(velx , vely);
+		window.clear();
+		window.draw(zero);
+		window.draw(one);
+		window.draw(two);
+		window.draw(three);
+		window.draw(boll);
+		window.draw(plyro);
+		window.draw(plyrt);
+		window.draw(poon);
+		window.draw(potw);
+		window.draw(poth);
+		window.draw(pofo);
+		window.draw(pofi);
+		window.draw(pto);
+		window.draw(pttw);
+		window.draw(ptth);
+		window.draw(ptfo);
+		window.draw(ptfi);
+
+
+
+
+		window.display();
+	}
+}
