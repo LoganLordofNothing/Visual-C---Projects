@@ -1,3 +1,5 @@
+//As I now upload this in 2020, I realize my code isn't well organizzed and I apologize for that
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
@@ -23,7 +25,7 @@ bool Collision(sf::RectangleShape &rect, sf::RectangleShape &roct){
 //	shape.setFillColor(sf::Color::Green);
 //
 //
-// IMPORTANT COPY BELOW OVER SO PROGRAM WORKS
+// IMPORTANT COPY THIS CODE AROUND EACH PROJECT AND DE-COMMENT THE PROJECT SO THE PROGRAM WORKS
 //	while (window.isOpen()){
 //		sf::Event event;
 //		while (window.pollEvent(event)){
